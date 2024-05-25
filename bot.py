@@ -9,7 +9,7 @@ Original file is located at
 
 import streamlit as st
 from transformers import pipeline, set_seed
-from typing import List, Any
+from typing import Any
 
 
 @st.cache(allow_output_mutation=True)
@@ -29,7 +29,6 @@ num_sentences = st.slider("Количество предложений:", min_va
 len_sequences = st.slider("Длина предложений:", min_value=10, max_value=100)
 
 generate_button = st.button("Дополнить текст")
-
 
 
 def generate_text(text: str, max_length: int, num_sequences: int) -> None:
