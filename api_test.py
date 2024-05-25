@@ -37,7 +37,7 @@ def test_generate_text_length():
 
 
 def test_info():
-    response = client.get("/")
+    response = client.get("/info/")
     assert response.status_code == 200
     assert response.json() == {
         "model": "openai-gpt",
