@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app
+from main import app, InputText
 
 
 client = TestClient(app)
@@ -8,12 +8,12 @@ client = TestClient(app)
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Hello World, input your messege."}
+    assert response.json() == {"message": "Hello World, input your message."}
 
 
 def test_generate_text():
-    item = {"text": "This is a test."}
-    response = client.post("/generate/", json=item)
+    input_text = {"text": "This is a test."}
+    response = client.post("/generate/", json=input_text)
     assert response.status_code == 200
     results = response.json()
     assert isinstance(results, list)
@@ -23,8 +23,8 @@ def test_generate_text():
 
 
 def test_generate_text_length():
-    item = {"text": "This is a test."}
-    response = client.post("/generate/", json=item)
+    input_text = {"text": "This is a test."}
+    response = client.post("/generate/", json=input_text)
     assert response.status_code == 200
     results = response.json()
     assert isinstance(results, list)
@@ -45,9 +45,22 @@ def test_info():
         "methods": {
             "/": "GET - Root endpoint, returns a welcome message.",
             "/generate/": "POST - Generates text based on the input text. \
-                Parameters: text (str), num_sequences (int) \
-                    , max_length (int).",
-            "/info/": "GET - Returns information about \
-                the model and available API methods.",
+                Parameters: text (str), num_sequences (int), max_length (int).",
+            "/info/": "GET - Returns information about the model and available API methods.",
         },
     }
+
+
+def test_generate_text_error_handling():
+    input_text = {"text": ""}
+    response = client.post("/generate/", json=input_text)
+    assert response.status_code == 422  # Assuming 422 Unprocessable Entity for empty text
+
+    input_text = {"text": "This is a test."}
+    response = client.post("/generate/", json=input_text)
+    assert response.status_code == 200
+    results = response.json()
+    assert isinstance(results, list)
+    assert len(results) > 0
+    for result in results:
+        assert "generated_text" in result
