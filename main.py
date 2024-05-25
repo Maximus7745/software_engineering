@@ -14,7 +14,7 @@ set_seed(42)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World, input your messege."}
+    return {"message": "Hello World, input your message."}
 
 
 @app.get("/info/")
@@ -36,4 +36,4 @@ async def get_info():
 
 @app.post("/generate/")
 def generate_text(item: Item):
-    return generator(item.text, max_length=20, num_return_sequences=5)
+    return generator(item.text, max_length=20, num_return_sequences=5, bos_token_id=generator.model.config.bos_token_id)
