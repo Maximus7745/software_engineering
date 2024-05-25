@@ -56,7 +56,7 @@ def test_info():
 def test_generate_text_error_handling():
     input_text = {"text": ""}
     response = client.post("/generate/", json=input_text)
-    assert response.status_code == 422  # 422 Unprocessable Entity для пустого текста
+    assert response.status_code == 422  
 
     input_text = {"text": "This is a test."}
     response = client.post("/generate/", json=input_text)
