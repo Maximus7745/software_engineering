@@ -1,14 +1,15 @@
 from fastapi.testclient import TestClient
 from main import app
 
-
 client = TestClient(app)
+
+def test_root():
 
 
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Hello World, input your message."}
+    assert response.json() == {"message": "Hi everyone, input your message."}
 
 
 def test_generate_text():
