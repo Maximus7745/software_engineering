@@ -31,8 +31,8 @@ len_sequences = st.slider("Длина предложений:", min_value=10, ma
 generate_button = st.button("Дополнить текст")
 
 
-def generate_text(text: str, max_length: int, num_sequences: int) -> None:
-    if len(input_text) > 0:
+def generate_text(input_text: str, max_length: int, num_sequences: int) -> None:
+    if len(input_text.strip()) > 0:
         results = generator(input_text, max_length=max_length, num_return_sequences=num_sentences)
         for result in results:
             st.write(result["generated_text"])
