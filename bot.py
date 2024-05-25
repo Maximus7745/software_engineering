@@ -13,9 +13,9 @@ from transformers import pipeline, set_seed
 
 @st.cache(allow_output_mutation=True)
 def load_generate():
-    gen = pipeline("text-generation", model="openai-gpt")
+    text_generator = pipeline("text-generation", model="openai-gpt")
     set_seed(42)
-    return gen
+    return text_generator
 
 
 generator = load_generate()
@@ -27,15 +27,16 @@ num_sequences = st.slider("Количество предложений:", min_va
 
 len_sequences = st.slider("Длина предложений:", min_value=10, max_value=100)
 
-button_add = st.button("Дополнить текст")
+generate_button = st.button("Дополнить текст")
 
-if button_add:
-    st.write("**Варианты продолжения текста :**")
+def generate_text(text, max_length, num_sequences):
     if len(text) > 0:
-        result = generator(
-            text, max_length=len_sequences, num_return_sequences=num_sequences
-        )
-        for elem in result:
-            st.write(elem["generated_text"])
+        results = text_generator(text, max_length=max_length, num_return_sequences=num_sequences)
+        for result in results:
+            st.write(result["generated_text"])
     else:
         st.write("Вы не ввели текст")
+
+if generate_button:
+    st.write("**Варианты продолжения текста :**")
+    generate_text(text, len_sequences, num_sequences)
