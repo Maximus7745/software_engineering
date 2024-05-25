@@ -6,7 +6,7 @@ client = TestClient(app)
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Hello World, input your message."}
+    assert response.json() == {"message": "Hello everyone, input your message."}
 
 def test_generate_text():
     input_text = {"text": "This is a test."}
