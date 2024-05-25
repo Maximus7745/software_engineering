@@ -45,8 +45,10 @@ def test_info():
         "methods": {
             "/": "GET - Root endpoint, returns a welcome message.",
             "/generate/": "POST - Generates text based on the input text. \
-                Parameters: text (str), num_sequences (int), max_length (int).",
-            "/info/": "GET - Returns information about the model and available API methods.",
+                Parameters: text (str), num_sequences (int) \
+                    , max_length (int).",
+            "/info/": "GET - Returns information about \
+                the model and available API methods.",
         },
     }
 
