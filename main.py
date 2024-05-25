@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from transformers import pipeline, set_seed
 from pydantic import BaseModel
 
@@ -36,4 +36,6 @@ async def get_info():
 
 @app.post("/generate/")
 def generate_text(item: Item):
+    if not item.text.strip():  # Проверка на пустую строку
+        raise HTTPException(status_code=422, detail="Input text cannot be empty")
     return generator(item.text, max_length=20, num_return_sequences=5, bos_token_id=generator.model.config.bos_token_id)
