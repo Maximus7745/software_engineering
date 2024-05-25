@@ -34,3 +34,20 @@ def test_generate_text_length():
         assert (
             len(generated_text) <= 20
         ), f"Generated text is longer than 20 characters: {generated_text}"
+
+
+def test_info():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {
+        "model": "openai-gpt",
+        "description": "This is a text-generation model from OpenAI.",
+        "methods": {
+            "/": "GET - Root endpoint, returns a welcome message.",
+            "/generate/": "POST - Generates text based on the input text. \
+                Parameters: text (str), num_sequences (int) \
+                    , max_length (int).",
+            "/info/": "GET - Returns information about \
+                the model and available API methods.",
+        },
+    }
