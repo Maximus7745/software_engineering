@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app, InputText
+from main import app
 
 
 client = TestClient(app)
@@ -45,8 +45,10 @@ def test_info():
         "methods": {
             "/": "GET - Root endpoint, returns a welcome message.",
             "/generate/": "POST - Generates text based on the input text. \
-                Parameters: text (str), num_sequences (int), max_length (int).",
-            "/info/": "GET - Returns information about the model and available API methods.",
+                Parameters: text (str), num_sequences (int) \
+                    , max_length (int).",
+            "/info/": "GET - Returns information about \
+                the model and available API methods.",
         },
     }
 
@@ -54,7 +56,7 @@ def test_info():
 def test_generate_text_error_handling():
     input_text = {"text": ""}
     response = client.post("/generate/", json=input_text)
-    assert response.status_code == 422  # Assuming 422 Unprocessable Entity for empty text
+    assert response.status_code == 422  # 422 Unprocessable Entity для пустого текста
 
     input_text = {"text": "This is a test."}
     response = client.post("/generate/", json=input_text)
