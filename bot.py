@@ -9,10 +9,11 @@ Original file is located at
 
 import streamlit as st
 from transformers import pipeline, set_seed
+from typing import Any
 
 
 @st.cache(allow_output_mutation=True)
-def load_generate():
+def load_generate() -> Any:
     text_generator = pipeline("text-generation", model="openai-gpt")
     set_seed(42)
     return text_generator
@@ -21,18 +22,18 @@ def load_generate():
 generator = load_generate()
 
 st.title("Бот для дополнения текста")
-text = st.text_area("Место для записи начала текста", height=100)
+input_text = st.text_area("Место для записи начала текста", height=100)
 
-num_sequences = st.slider("Количество предложений:", min_value=1, max_value=10)
+num_sentences = st.slider("Количество предложений:", min_value=1, max_value=10)
 
 len_sequences = st.slider("Длина предложений:", min_value=10, max_value=100)
 
 generate_button = st.button("Дополнить текст")
 
 
-def generate_text(text, max_length, num_sequences):
-    if text.strip():  # Проверка на пустой текст или текст, состоящий только из пробелов
-        results = generator(text, max_length=max_length, num_return_sequences=num_sequences)
+def generate_text(input_text: str, max_length: int, num_sequences: int) -> None:
+    if len(input_text.strip()) > 0:
+        results = generator(input_text, max_length=max_length, num_return_sequences=num_sentences)
         for result in results:
             st.write(result["generated_text"])
     else:
@@ -41,4 +42,4 @@ def generate_text(text, max_length, num_sequences):
 
 if generate_button:
     st.write("**Варианты продолжения текста :**")
-    generate_text(text, len_sequences, num_sequences)
+    generate_text(input_text, len_sequences, num_sentences)
