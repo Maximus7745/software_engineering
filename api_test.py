@@ -1,12 +1,14 @@
 from fastapi.testclient import TestClient
 from main import app
 
+
 client = TestClient(app)
+
 
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "hi everyone, input your message."}
+    assert response.json() == {"message": "Hello World, input your message."}
 
 
 def test_generate_text():
@@ -54,7 +56,7 @@ def test_info():
 def test_generate_text_error_handling():
     input_text = {"text": ""}
     response = client.post("/generate/", json=input_text)
-    assert response.status_code == 422  
+    assert response.status_code == 422  # 422 Unprocessable Entity для пустого текста
 
     input_text = {"text": "This is a test."}
     response = client.post("/generate/", json=input_text)
