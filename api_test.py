@@ -3,10 +3,12 @@ from main import app
 
 client = TestClient(app)
 
+
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"message": "Hello everyone, input your message."}
+
 
 def test_generate_text():
     input_text = {"text": "This is a test."}
@@ -17,6 +19,7 @@ def test_generate_text():
     assert len(output_list) > 0
     generated_text = output_list[0]["generated_text"]
     assert generated_text is not None
+
 
 def test_generate_text_length():
     input_text = {"text": "This is a test."}
@@ -30,6 +33,7 @@ def test_generate_text_length():
         assert (
             len(generated_text) <= 20
         ), f"Generated text is longer than 20 characters: {generated_text}"
+
 
 def test_info():
     response = client.get("/info/")
@@ -46,6 +50,7 @@ def test_info():
                 the model and available API methods.",
         },
     }
+
 
 def test_generate_text_error_handling():
     input_text = {"text": ""}
