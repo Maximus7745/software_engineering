@@ -9,10 +9,11 @@ Original file is located at
 
 import streamlit as st
 from transformers import pipeline, set_seed
+from typing import List, Any
 
 
 @st.cache(allow_output_mutation=True)
-def load_generate():
+def load_generate() -> Any:
     text_generator = pipeline("text-generation", model="openai-gpt")
     set_seed(42)
     return text_generator
@@ -30,7 +31,7 @@ len_sequences = st.slider("Длина предложений:", min_value=10, ma
 generate_button = st.button("Дополнить текст")
 
 
-def generate_text(text, max_length, num_sequences):
+def generate_text(text: str, max_length: int, num_sequences: int) -> None:
     if len(text) > 0:
         results = generator(text, max_length=max_length, num_return_sequences=num_sequences)
         for result in results:
