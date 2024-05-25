@@ -14,7 +14,7 @@ set_seed(42)
 
 @app.get("/")
 async def root():
-    return {"message": "hello everyone, input your message."}
+    return {"message": "Hello everyone, input your message."}
 
 
 @app.get("/info/")
