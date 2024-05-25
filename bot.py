@@ -31,7 +31,7 @@ generate_button = st.button("Дополнить текст")
 
 
 def generate_text(text, max_length, num_sequences):
-    if len(text) > 0:
+    if text.strip():  # Проверка на пустой текст или текст, состоящий только из пробелов
         results = generator(text, max_length=max_length, num_return_sequences=num_sequences)
         for result in results:
             st.write(result["generated_text"])
