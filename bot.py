@@ -29,6 +29,7 @@ len_sequences = st.slider("Длина предложений:", min_value=10, ma
 
 generate_button = st.button("Дополнить текст")
 
+
 def generate_text(text, max_length, num_sequences):
     if len(text) > 0:
         results = generator(text, max_length=max_length, num_return_sequences=num_sequences)
@@ -36,6 +37,7 @@ def generate_text(text, max_length, num_sequences):
             st.write(result["generated_text"])
     else:
         st.write("Вы не ввели текст")
+
 
 if generate_button:
     st.write("**Варианты продолжения текста :**")
